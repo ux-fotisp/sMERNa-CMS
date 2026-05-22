@@ -1,19 +1,20 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { connectDB } from "@/lib/db"
+import { registrationSchema, validateRequestBody } from "@/lib/validation"
 import User from "@/models/User"
 
 export async function POST(request: Request) {
+  const validation = await validateRequestBody(request, registrationSchema)
+
+  if (!validation.ok) {
+    return validation.response
+  }
+
   try {
     await connectDB()
 
-    const body = await request.json()
-
-    const { name, email, password } = body
-
-    if (!name || !email || !password) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
-    }
+    const { name, email, password } = validation.data
 
     // Check if user already exists
     const existingUser = await User.findOne({ email })
