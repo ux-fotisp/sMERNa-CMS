@@ -88,6 +88,22 @@ export const listingUpdateSchema = listingCreateSchema.partial().refine(
   { message: 'At least one field is required' }
 )
 
+export const listingActionSchema = z
+  .object({
+    action: z.enum(['submit_for_review', 'approve', 'reject', 'publish', 'archive', 'feature', 'unfeature']),
+    reason: z.string().trim().min(1).max(500).optional(),
+  })
+  .refine(
+    (value) => {
+      if (value.action !== 'reject') {
+        return true
+      }
+
+      return Boolean(value.reason)
+    },
+    { message: 'A rejection reason is required when rejecting a listing' }
+  )
+
 export const registrationSchema = z.object({
   name: z.string().trim().min(1).max(50),
   email: z.string().trim().email(),

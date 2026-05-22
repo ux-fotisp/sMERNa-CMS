@@ -88,7 +88,19 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  await Listing.findByIdAndDelete(params.id)
+  await Listing.findByIdAndUpdate(
+    params.id,
+    {
+      status: 'archived',
+      archivedAt: new Date(),
+      updatedBy: session.user.id,
+      updatedAt: Date.now(),
+      featured: false,
+      featuredAt: null,
+      featuredBy: null,
+    },
+    { new: true, runValidators: true }
+  )
 
-  return NextResponse.json({ message: 'Listing deleted successfully' })
+  return NextResponse.json({ message: 'Listing archived successfully' })
 }

@@ -12,6 +12,20 @@ export default function Dashboard() {
   const router = useRouter()
   const [listings, setListings] = useState([])
 
+  const runListingAction = async (id: string, action: string, reason?: string) => {
+    const response = await fetch(`/api/listings/${id}/actions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, reason }),
+    })
+
+    if (response.ok) {
+      const refreshed = await fetch('/api/listings')
+      const data = await refreshed.json()
+      setListings(Array.isArray(data) ? data : [])
+    }
+  }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login")
@@ -48,16 +62,56 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle>{listing.title}</CardTitle>
               <CardDescription>
-                {listing.status} · {listing.visibility}
+                {listing.status} · {listing.visibility} {listing.featured ? '· featured' : ''}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p>{listing.excerpt || listing.description.substring(0, 100)}...</p>
             </CardContent>
             <CardFooter>
-              <Link href={`/listings/${listing._id}`}>
-                <Button>View</Button>
-              </Link>
+              <div className="flex flex-wrap gap-2">
+                <Link href={`/listings/${listing._id}`}>
+                  <Button>View</Button>
+                </Link>
+                {listing.status === 'draft' || listing.status === 'rejected' ? (
+                  <Button variant="outline" onClick={() => runListingAction(listing._id, 'submit_for_review')}>
+                    Submit
+                  </Button>
+                ) : null}
+                {listing.status !== 'archived' ? (
+                  <Button variant="outline" onClick={() => runListingAction(listing._id, 'archive')}>
+                    Archive
+                  </Button>
+                ) : null}
+                {session?.user?.role === 'admin' && listing.status === 'pending_review' ? (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      const reason = window.prompt('Rejection reason')
+                      if (reason) {
+                        runListingAction(listing._id, 'reject', reason)
+                      }
+                    }}
+                  >
+                    Reject
+                  </Button>
+                ) : null}
+                {session?.user?.role === 'admin' && listing.status === 'pending_review' ? (
+                  <Button variant="outline" onClick={() => runListingAction(listing._id, 'publish')}>
+                    Publish
+                  </Button>
+                ) : null}
+                {session?.user?.role === 'admin' && listing.status === 'published' && !listing.featured ? (
+                  <Button variant="outline" onClick={() => runListingAction(listing._id, 'feature')}>
+                    Feature
+                  </Button>
+                ) : null}
+                {session?.user?.role === 'admin' && listing.featured ? (
+                  <Button variant="outline" onClick={() => runListingAction(listing._id, 'unfeature')}>
+                    Unfeature
+                  </Button>
+                ) : null}
+              </div>
             </CardFooter>
           </Card>
         ))}

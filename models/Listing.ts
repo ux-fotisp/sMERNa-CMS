@@ -26,6 +26,10 @@ const ListingSchema = new mongoose.Schema(
       enum: ['draft', 'pending_review', 'published', 'archived', 'rejected'],
       default: 'draft',
     },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
     visibility: {
       type: String,
       enum: ['public', 'private', 'unlisted'],
@@ -89,10 +93,34 @@ const ListingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
+    rejectedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     publishedAt: {
       type: Date,
     },
+    approvedAt: {
+      type: Date,
+    },
+    rejectedAt: {
+      type: Date,
+    },
+    rejectionReason: {
+      type: String,
+      trim: true,
+    },
+    archivedAt: {
+      type: Date,
+    },
+    featuredAt: {
+      type: Date,
+    },
     updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    featuredBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
