@@ -144,6 +144,9 @@ export default function Dashboard() {
       </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
+        <Link href="/explore/listings">
+          <Button variant="outline">View Public Catalog</Button>
+        </Link>
         <Button variant="outline" onClick={() => runBulkAction('archive')} disabled={!selectedIds.length}>
           Archive Selected
         </Button>

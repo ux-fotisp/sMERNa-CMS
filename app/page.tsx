@@ -53,6 +53,7 @@ export default function Home() {
             <ul className="flex space-x-4">
               <li><Link href="/login" className="text-primary hover:text-primary/80">Login</Link></li>
               <li><Link href="/register" className="text-primary hover:text-primary/80">Register</Link></li>
+              <li><Link href="/explore/listings" className="text-primary hover:text-primary/80">Public Listings</Link></li>
               <li><Link href="/dummy-content" className="text-primary hover:text-primary/80">Dummy Content</Link></li>
             </ul>
           </nav>
@@ -83,8 +84,8 @@ export default function Home() {
                 <Link href="/login">
                   <Button size="lg">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button>
                 </Link>
-                <Link href="/dummy-content">
-                  <Button variant="outline" size="lg">View Dummy Content</Button>
+                <Link href="/explore/listings">
+                  <Button variant="outline" size="lg">Browse Listings</Button>
                 </Link>
               </div>
             </section>
@@ -128,9 +129,14 @@ export default function Home() {
             <section className="text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to slither into content management?</h2>
               <p className="mb-8">Join our pit and start creating content today.</p>
-              <Link href="/register">
-                <Button size="lg">Sign Up Now</Button>
-              </Link>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/register">
+                  <Button size="lg">Sign Up Now</Button>
+                </Link>
+                <Link href="/explore/listings">
+                  <Button variant="outline" size="lg">See Public Listings</Button>
+                </Link>
+              </div>
             </section>
           </>
         )}
