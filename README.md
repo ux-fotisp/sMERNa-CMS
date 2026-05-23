@@ -55,3 +55,9 @@ Open `http://localhost:3000` after the server starts.
 
 - This repository no longer depends on StackBlitz or Bolt links in the README.
 - The project roadmap and implementation details are documented in [ROADMAP.md](ROADMAP.md) and [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
+
+## Copilot Agent Instructions
+
+- Repository-level Copilot instructions are defined in `.github/copilot-instructions.md`.
+- Open Copilot Chat in your editor (VS Code or JetBrains) to apply these instructions automatically in this workspace.
+- Example prompt: `Scaffold a new content type for "Exhibitions" matching our project standards.`

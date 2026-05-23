@@ -50,10 +50,3 @@ When helping the developer build features or add new modules to **sMERNa-CMS**, 
 
 ---
 Always maintain type safety, clean code execution, and absolute separation of data structure from visual styling.
-
-Next Steps for Your Project Workflow:
-Commit the File: Push .github/copilot-instructions.md to your main branch on ux-fotisp/sMERNa-CMS.
-
-Activate the Agent: When you open your Copilot Chat panel in VS Code or JetBrains within this workspace, it will instantly adapt to this mindset.
-
-Execution Prompts: You can now open the chat and type simple instructions like: "Scaffold a new content type for 'Exhibitions' matching our project standards." Copilot will automatically read the .github instruction file and output your schemas, APIs, and atomic frontend components perfectly structured around OOUX.
